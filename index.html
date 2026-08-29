@@ -1,28 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Secret</title>
-  
+  <title>secret</title>
+
   <!-- SEO & Social Sharing / Open Graph (Vercel Ready) -->
-  <meta name="description" content="A playful interactive journey with a surprise at the end.">
-  <meta property="og:title" content="Secret">
-  <meta property="og:description" content="A playful interactive journey with a surprise at the end.">
+  <meta name="description" content="A cute, interactive romantic adventure game crafted for special moments.">
+  <meta property="og:title" content="Are You Single Too? 👀✨">
+  <meta property="og:description" content="A cute, interactive romantic adventure game crafted for special moments.">
   <meta property="og:type" content="website">
   <meta name="theme-color" content="#240b3b">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
   <!-- Canvas Confetti CDN for smooth celebratory effects -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js"></script>
 
   <!-- Modular CSS -->
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 
   <!-- Ambient lighting orbs -->
@@ -49,16 +53,17 @@
 
   <!-- Main Application Stage -->
   <main class="stage">
-    
+
     <!-- SCENE 1: LANDING / NAME ENTRY -->
     <section class="scene active" id="scene1" aria-label="Welcome Scene">
       <div class="card">
         <div class="eyebrow">psst, yes you 👀</div>
         <h1>Before we go any further,<br>what's your name? </h1>
         <p class="sub">Type your name below and hit enter </p>
-        
+
         <div class="input-group">
-          <input type="text" id="nameInput" placeholder="Jane / Alex / you know who you are..." maxlength="30" autocomplete="off" autofocus>
+          <input type="text" id="nameInput" placeholder="Jane / Alex / you know who you are..." maxlength="30"
+            autocomplete="off" autofocus>
         </div>
         <button class="btn-primary" id="enterBtn">
           <span>Let's Start</span>
@@ -75,8 +80,9 @@
           <span>A Special Question For You</span>
           <img src="yu.jpg" alt="Rizz Photo" onerror="this.style.display='none';">
         </div>
-        <h1 id="greeting">Hi <span class="name-highlight">Name</span>hmm... 👀<br>Would you like to explore the world with me?</h1>
-        
+        <h1 id="greeting">Hi <span class="name-highlight">Name</span>hmm... 👀<br>Would you like to explore the world
+          with me?</h1>
+
         <div class="choice-zone" id="choiceZone">
           <button class="btn-yes" id="yesBtn">Yes </button>
           <button class="btn-no" id="noBtn">No </button>
@@ -106,9 +112,9 @@
         <div class="eyebrow">packing time 🎒</div>
         <h1>What would you want to bring with me?</h1>
         <div class="selection-hint" id="bringHint">pick up to 3</div>
-        
+
         <div class="choice-grid" id="bringGrid"></div>
-        
+
         <button class="btn-primary" id="bringNextBtn" disabled>
           <span>Let's pack this 🚀</span>
         </button>
@@ -121,9 +127,9 @@
         <div class="eyebrow">next stop 🗺️</div>
         <h1>Where are we traveling first?</h1>
         <div class="selection-hint">Choose your dream place</div>
-        
+
         <div class="choice-grid" id="destGrid"></div>
-        
+
         <button class="btn-primary" id="destNextBtn" disabled>
           <span>Next destination ➡️</span>
         </button>
@@ -136,9 +142,9 @@
         <div class="eyebrow">getting there 🚀</div>
         <h1>What are we riding to get there?</h1>
         <div class="selection-hint">Pick your ultimate ride</div>
-        
+
         <div class="choice-grid" id="transportGrid"></div>
-        
+
         <button class="btn-primary" id="transportNextBtn" disabled>
           <span>Next ➡️</span>
         </button>
@@ -151,9 +157,9 @@
         <div class="eyebrow">for the trip 🍫</div>
         <h1>Pick your roadtrip treat!</h1>
         <div class="selection-hint">Which one is your favorite?</div>
-        
+
         <div class="choice-grid" id="favGrid"></div>
-        
+
         <button class="btn-primary" id="favNextBtn" disabled>
           <span>Next ➡️</span>
         </button>
@@ -166,9 +172,9 @@
         <div class="eyebrow">last question 💭</div>
         <h1>So who is coming with you?</h1>
         <div class="selection-hint">Choose wisely 😉</div>
-        
+
         <div class="choice-grid who-grid" id="whoGrid"></div>
-        
+
         <button class="btn-primary" id="whoNextBtn" disabled>
           <span>Reveal 💌</span>
         </button>
@@ -180,9 +186,9 @@
       <div class="card">
         <div class="eyebrow">it's official 💕</div>
         <h1 id="recapTitle">Let's make it happen! ✨</h1>
-        
+
         <div class="recap-list" id="recapList"></div>
-        
+
         <button class="btn-primary" id="finalBtn">
           <span>Tara na! 🚀</span>
         </button>
@@ -198,7 +204,7 @@
           <span class="equalizer-bar"></span>
           <span>Playing for you 🎵</span>
         </div>
-        
+
         <div class="photo-slot hugot-photo-slot" id="photoSlot3">
           <span class="photo-icon hugot-icon">💔</span>
           <span class="hugot-slot-title">Plot Twist...</span>
@@ -208,7 +214,7 @@
         <div class="hugot-quote-wrap">
           <span class="quote-mark">“</span>
           <p class="meme-caption hugot-caption" id="hugotText">
-           This took longer than it should've.<br>Guess I just really wanted you to see it.<em>"us"</em> yet…<br>
+            This took longer than it should've.<br>Guess I just really wanted you to see it.<em>"us"</em> yet…<br>
             <strong></strong>
           </p>
           <span class="quote-mark end-quote">”</span>
@@ -229,4 +235,5 @@
   <!-- Modular Javascript -->
   <script type="module" src="js/app.js"></script>
 </body>
+
 </html>
