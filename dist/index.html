@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Are You Single Too? 👀✨</title>
+  
+  <!-- SEO & Social Sharing / Open Graph (Vercel Ready) -->
+  <meta name="description" content="A cute, interactive romantic adventure game crafted for special moments.">
+  <meta property="og:title" content="Are You Single Too? 👀✨">
+  <meta property="og:description" content="A cute, interactive romantic adventure game crafted for special moments.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#240b3b">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Canvas Confetti CDN for smooth celebratory effects -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js"></script>
+
+  <!-- Modular CSS -->
+  <script type="module" crossorigin src="/assets/index-BCfUOpch.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-N-l0DlBj.css">
+</head>
+<body>
+
+  <!-- Ambient lighting orbs -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+
+  <!-- Floating hearts and sparkles -->
+  <div class="floaters" id="floaters"></div>
+
+  <!-- Floating Top Bar -->
+  <header class="top-bar">
+    <div class="top-bar-item">
+      <div class="pill-badge">
+        <span>✨</span>
+        <span>For You</span>
+      </div>
+    </div>
+    <div class="top-bar-item">
+      <button class="icon-btn active" id="soundToggle" title="Toggle Sound Effects" aria-label="Toggle Sound Effects">
+        🔊
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Application Stage -->
+  <main class="stage">
+    
+    <!-- SCENE 1: LANDING / NAME ENTRY -->
+    <section class="scene active" id="scene1" aria-label="Welcome Scene">
+      <div class="card">
+        <div class="eyebrow">psst, yes you 👀</div>
+        <h1>Before we go any further,<br>what's your name? ✨</h1>
+        <p class="sub">Type your name below and hit enter 👇</p>
+        
+        <div class="input-group">
+          <input type="text" id="nameInput" placeholder="Jane / Alex / you know who you are..." maxlength="30" autocomplete="off" autofocus>
+        </div>
+        <button class="btn-primary" id="enterBtn">
+          <span>Let's Start</span>
+          <span>✨</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- SCENE 2: THE QUESTION WITH RUNAWAY NO BUTTON -->
+    <section class="scene" id="scene2" aria-label="Question Scene">
+      <div class="card">
+        <div class="photo-slot" id="photoSlot1">
+          <span class="photo-icon">💌</span>
+          <span>A Special Question For You</span>
+          <img src="Choso reaction pic #choso #jjk #jujutsukaisen.jpeg" alt="Rizz Photo" onerror="this.style.display='none';">
+        </div>
+        <h1 id="greeting">Hi <span class="name-highlight">Name</span>, are you single din ba? 👀<br>Would you like to explore the world with me?</h1>
+        
+        <div class="choice-zone" id="choiceZone">
+          <button class="btn-yes" id="yesBtn">Yes 🥹</button>
+          <button class="btn-no" id="noBtn">No 🏃‍♂️</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCENE 3: RESULT REACTION -->
+    <section class="scene" id="scene3" aria-label="Reaction Scene">
+      <div class="card">
+        <div class="photo-slot" id="photoSlot2">
+          <span class="photo-icon">😏</span>
+          <span>Caught You Smiling!</span>
+          <img src="/assets/YW!_-5S2jwv35.jpeg" alt="Meme Reaction" onerror="this.style.display='none';">
+        </div>
+        <p class="meme-caption">Sabi na nga ba eh, you're interested to travel with me 😏</p>
+        <button class="btn-primary" id="continueBtn3">
+          <span>Continue</span>
+          <span>➡️</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- SCENE 4: WHAT TO BRING (MULTI-SELECT UP TO 3) -->
+    <section class="scene wide" id="scene4" aria-label="What to Bring Scene">
+      <div class="card">
+        <div class="eyebrow">packing time 🎒</div>
+        <h1>What would you want to bring with me?</h1>
+        <div class="selection-hint" id="bringHint">pick up to 3</div>
+        
+        <div class="choice-grid" id="bringGrid"></div>
+        
+        <button class="btn-primary" id="bringNextBtn" disabled>
+          <span>Let's pack this 🚀</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- SCENE 5: DESTINATION -->
+    <section class="scene wide" id="scene5" aria-label="Destination Scene">
+      <div class="card">
+        <div class="eyebrow">next stop 🗺️</div>
+        <h1>Where are we traveling first?</h1>
+        <div class="selection-hint">Choose your dream place</div>
+        
+        <div class="choice-grid" id="destGrid"></div>
+        
+        <button class="btn-primary" id="destNextBtn" disabled>
+          <span>Next destination ➡️</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- SCENE 6: TRANSPORTATION -->
+    <section class="scene wide" id="scene6" aria-label="Transportation Scene">
+      <div class="card">
+        <div class="eyebrow">getting there 🚀</div>
+        <h1>What are we riding to get there?</h1>
+        <div class="selection-hint">Pick your ultimate ride</div>
+        
+        <div class="choice-grid" id="transportGrid"></div>
+        
+        <button class="btn-primary" id="transportNextBtn" disabled>
+          <span>Next ➡️</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- SCENE 7: FAVORITE FOOD / TREAT -->
+    <section class="scene wide" id="scene7" aria-label="Favorites Scene">
+      <div class="card">
+        <div class="eyebrow">for the trip 🍫</div>
+        <h1>Pick your roadtrip treat!</h1>
+        <div class="selection-hint">Which one is your favorite?</div>
+        
+        <div class="choice-grid" id="favGrid"></div>
+        
+        <button class="btn-primary" id="favNextBtn" disabled>
+          <span>Next ➡️</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- SCENE 8: COMPANION (SHRINK / GROW GAG) -->
+    <section class="scene" id="scene8" aria-label="Companion Scene">
+      <div class="card">
+        <div class="eyebrow">last question 💭</div>
+        <h1>So who is coming with you?</h1>
+        <div class="selection-hint">Choose wisely 😉</div>
+        
+        <div class="choice-grid who-grid" id="whoGrid"></div>
+        
+        <button class="btn-primary" id="whoNextBtn" disabled>
+          <span>Reveal 💌</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- SCENE 9: RECAP SUMMARY -->
+    <section class="scene" id="scene9" aria-label="Recap Scene">
+      <div class="card">
+        <div class="eyebrow">it's official 💕</div>
+        <h1 id="recapTitle">Let's make it happen! ✨</h1>
+        
+        <div class="recap-list" id="recapList"></div>
+        
+        <button class="btn-primary" id="finalBtn">
+          <span>Tara na! 🚀</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- SCENE 10: HUGOT / FINAL SURPRISE -->
+    <section class="scene" id="scene10" aria-label="Hugot Ending Scene">
+      <div class="card hugot-card">
+        <div class="audio-playing-badge" id="musicBadge">
+          <span class="equalizer-bar"></span>
+          <span class="equalizer-bar"></span>
+          <span class="equalizer-bar"></span>
+          <span>Playing for you 🎵</span>
+        </div>
+        
+        <div class="photo-slot hugot-photo-slot" id="photoSlot3">
+          <span class="photo-icon hugot-icon">💔</span>
+          <span class="hugot-slot-title">Plot Twist...</span>
+          <img src="/assets/download%20(8)-BmFqjuHm.jpeg" alt="Hugot Ending" onerror="this.style.display='none';">
+        </div>
+
+        <div class="hugot-quote-wrap">
+          <span class="quote-mark">“</span>
+          <p class="meme-caption hugot-caption" id="hugotText">
+            I know this is your fantasy,<br>
+            but there's no <em>"us"</em> yet…<br>
+            <strong>so what now? 🥹💔</strong>
+          </p>
+          <span class="quote-mark end-quote">”</span>
+        </div>
+
+        <button class="restart-link" id="restartLink" role="button">
+          <span>Run it back from the start</span>
+          <span>🔁</span>
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Background audio element (optional user-provided audio) -->
+  <audio id="bgMusic" src="/assets/Kung%20Wala%20Ka%20-%20Hale-BkrvzpV3.mp3" loop autoplay preload="auto"></audio>
+
+  <!-- Modular Javascript -->
+</body>
+</html>
