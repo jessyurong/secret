@@ -47,12 +47,11 @@ export const WHO = [
 
 export const TEXT_CONTENT = {
   taglish: {
-    welcomeEyebrow: "psst, yes you 👀",
     welcomeTitle: "Before we go any further,<br>what's your name? ✨",
     welcomeSub: "Type your cute name below and hit enter 👇",
     namePlaceholder: "Jane / Alex / ikaw na 'to...",
     enterBtn: "Let's Start ✨",
-    greeting: (name) => `Hi <span class="name-highlight">${name}</span>, are you single din ba? 👀<br>Gusto mo ba mag-explore ng mundo kasama ko?`,
+    greeting: (name) => `Hi <span class="name-highlight">${name}</span>, <br>GWould you like to explore the world with me?`,
     yesBtn: "Yes 🥹",
     noBtn: "No 🏃‍♂️",
     scene3Caption: "Sabi na nga ba eh, you're interested to travel with me 😏",
@@ -72,7 +71,7 @@ export const TEXT_CONTENT = {
     scene9Eyebrow: "it's official 💕",
     scene9Title: "Let's make it happen!",
     finalBtn: "Tara na! 🚀",
-    hugotText: "I know this is your fantasy, but there's no \"us\" yet… so what now? 🥹",
+    hugotText: "This took longer than it should've. Guess I just really wanted you to see it.",
     restartLink: "run it back 🔁"
   }
 };
