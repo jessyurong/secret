@@ -1,4 +1,4 @@
-# ✨ Single Too? (Interactive Romantic Web App)
+# ✨ Secret (Interactive Romantic Web App)
 
 A modern, interactive, romantic & humorous web experience with smooth animations, Web Audio sound effects, confetti celebrations, and playful mechanics.
 
