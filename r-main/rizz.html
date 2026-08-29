@@ -1,750 +1,858 @@
-< !DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Secret</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><style> :root {
-    --bg-deep: #1a0b2e;
-    --bg-deep2: #2d1147;
-    --card: #fff9f0;
-    --hot-pink: #ff2e88;
-    --yellow: #ffd23f;
-    --ink: #2d1b3d;
-    --soft-purple: #b48cff;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html,
-body {
-    min-height: 100%;
-}
-
-body {
-    font-family: 'Poppins', sans-serif;
-    background: radial-gradient(circle at 20% 20%, var(--bg-deep2), var(--bg-deep) 70%) fixed;
-    color: var(--ink);
-    position: relative;
-}
-
-/* floating ambient hearts */
-.floaters {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-    z-index: 0;
-}
-
-.floaters span {
-    position: absolute;
-    bottom: -10%;
-    font-size: 20px;
-    opacity: 0.35;
-    animation: rise linear infinite;
-    color: var(--soft-purple);
-}
-
-@keyframes rise {
-    0% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 0;
-    }
-
-    10% {
-        opacity: 0.4;
-    }
-
-    100% {
-        transform: translateY(-110vh) rotate(360deg);
-        opacity: 0;
-    }
-}
-
-.stage {
-    position: relative;
-    z-index: 1;
-    min-height: 100vh;
-    width: 100vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 20px;
-}
-
-.scene {
-    display: none;
-    width: 100%;
-    max-width: 480px;
-    text-align: center;
-    animation: pop 0.5s cubic-bezier(.2, 1.4, .4, 1);
-}
-
-.scene.wide {
-    max-width: 580px;
-}
-
-.scene.active {
-    display: block;
-}
-
-@keyframes pop {
-    0% {
-        opacity: 0;
-        transform: scale(0.85) translateY(10px);
-    }
-
-    100% {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-    }
-}
-
-.card {
-    background: var(--card);
-    border-radius: 28px;
-    padding: 36px 28px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 0 6px rgba(255, 255, 255, 0.04);
-    position: relative;
-}
-
-.eyebrow {
-    font-family: 'Baloo 2', sans-serif;
-    font-weight: 700;
-    font-size: 13px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--hot-pink);
-    margin-bottom: 10px;
-}
-
-h1 {
-    font-family: 'Baloo 2', sans-serif;
-    font-weight: 800;
-    font-size: clamp(22px, 6vw, 30px);
-    line-height: 1.25;
-    color: var(--ink);
-    margin-bottom: 18px;
-}
-
-h1 .name-highlight {
-    color: var(--hot-pink);
-}
-
-p.sub {
-    font-size: 15px;
-    color: #6b5b7a;
-    margin-bottom: 22px;
-}
-
-input[type="text"] {
-    width: 100%;
-    padding: 16px 18px;
-    border-radius: 16px;
-    border: 2px solid #eadfff;
-    font-family: 'Poppins', sans-serif;
-    font-size: 16px;
-    background: #fdfaff;
-    color: var(--ink);
-    outline: none;
-    margin-bottom: 16px;
-    transition: border-color 0.2s;
-}
-
-input[type="text"]:focus {
-    border-color: var(--hot-pink);
-}
-
-.btn-primary {
-    font-family: 'Baloo 2', sans-serif;
-    font-weight: 700;
-    font-size: 17px;
-    color: #fff;
-    background: linear-gradient(135deg, var(--hot-pink), #ff5fa2);
-    border: none;
-    border-radius: 16px;
-    padding: 15px 28px;
-    cursor: pointer;
-    width: 100%;
-    box-shadow: 0 8px 20px rgba(255, 46, 136, 0.35);
-    transition: transform 0.15s ease, opacity 0.2s ease;
-}
-
-.btn-primary:hover {
-    transform: translateY(-2px) scale(1.02);
-}
-
-.btn-primary:active {
-    transform: translateY(0) scale(0.98);
-}
-
-.btn-primary:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-    transform: none;
-}
-
-.photo-slot {
-    width: 100%;
-    aspect-ratio: 4/3;
-    border-radius: 20px;
-    margin-bottom: 20px;
-    background: repeating-linear-gradient(45deg, #f3e9ff, #f3e9ff 10px, #ece0ff 10px, #ece0ff 20px);
-    border: 3px dashed var(--soft-purple);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #8b6fc9;
-    font-family: 'Baloo 2', sans-serif;
-    font-weight: 700;
-    font-size: 14px;
-    text-align: center;
-    padding: 12px;
-    overflow: hidden;
-}
-
-.photo-slot img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 16px;
-}
-
-/* Scene 2 button zone */
-.choice-zone {
-    position: relative;
-    height: 160px;
-    margin-top: 6px;
-}
-
-.btn-yes,
-.btn-no {
-    font-family: 'Baloo 2', sans-serif;
-    font-weight: 700;
-    border: none;
-    border-radius: 14px;
-    cursor: pointer;
-    position: absolute;
-    top: 8px;
-    transition: left 0.35s cubic-bezier(.2, 1, .3, 1), top 0.35s cubic-bezier(.2, 1, .3, 1), width 0.3s ease, height 0.3s ease, font-size 0.3s ease, transform 0.15s ease;
-}
-
-.btn-yes {
-    left: 16%;
-    background: linear-gradient(135deg, #34d399, #10b981);
-    color: #fff;
-    width: 120px;
-    height: 52px;
-    font-size: 16px;
-    box-shadow: 0 8px 18px rgba(16, 185, 129, 0.35);
-    z-index: 3;
-}
-
-.btn-yes:hover {
-    transform: scale(1.05);
-}
-
-.btn-no {
-    left: 56%;
-    background: #fff;
-    color: var(--ink);
-    border: 2px solid #e5d9f5;
-    width: 120px;
-    height: 52px;
-    font-size: 16px;
-    z-index: 2;
-}
-
-.meme-caption {
-    font-family: 'Baloo 2', sans-serif;
-    font-weight: 700;
-    font-size: 18px;
-    color: var(--ink);
-    margin-top: 4px;
-    margin-bottom: 20px;
-}
-
-.restart-link {
-    display: inline-block;
-    margin-top: 18px;
-    font-size: 13px;
-    color: #9b8bb5;
-    text-decoration: underline;
-    cursor: pointer;
-}
-
-/* Choice grid (used for bring / destination / transportation / favorite / who) */
-.choice-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
-    gap: 12px;
-    margin-bottom: 22px;
-}
-
-.choice-grid.who-grid {
-    grid-template-columns: repeat(2, 1fr);
-    max-width: 320px;
-    margin-left: auto;
-    margin-right: auto;
-    gap: 18px;
-}
-
-.choice-card {
-    cursor: pointer;
-    border-radius: 16px;
-    padding: 8px;
-    border: 2.5px solid transparent;
-    background: #fdfaff;
-    transition: transform 0.15s ease, border-color 0.2s ease, background 0.2s ease;
-}
-
-.choice-card:hover {
-    transform: translateY(-2px);
-}
-
-.choice-card.selected {
-    border-color: var(--hot-pink);
-    background: #fff0f7;
-    transform: translateY(-2px) scale(1.03);
-}
-
-.choice-card.shake {
-    animation: shake 0.3s;
-}
-
-@keyframes shake {
-
-    0%,
-    100% {
-        transform: translateX(0);
-    }
-
-    25% {
-        transform: translateX(-4px);
-    }
-
-    75% {
-        transform: translateX(4px);
-    }
-}
-
-.choice-img-wrap {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 1/1;
-    border-radius: 12px;
-    overflow: hidden;
-    margin-bottom: 8px;
-    background: repeating-linear-gradient(45deg, #f3e9ff, #f3e9ff 8px, #ece0ff 8px, #ece0ff 16px);
-    border: 2px dashed var(--soft-purple);
-}
-
-.choice-img-wrap img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-.choice-fallback {
-    position: absolute;
-    inset: 0;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-}
-
-.choice-label {
-    font-family: 'Baloo 2', sans-serif;
-    font-weight: 700;
-    font-size: 12.5px;
-    color: var(--ink);
-    display: block;
-}
-
-.who-grid .choice-img-wrap {
-    aspect-ratio: 4/5;
-}
-
-.who-grid .choice-label {
-    font-size: 15px;
-}
-
-.selection-hint {
-    font-size: 12.5px;
-    color: #9b8bb5;
-    margin-top: -12px;
-    margin-bottom: 16px;
-}
-
-/* recap scene */
-.recap-list {
-    text-align: left;
-    margin-bottom: 22px;
-}
-
-.recap-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px dashed #eadfff;
-    font-size: 14px;
-}
-
-.recap-row span:first-child {
-    color: #9b8bb5;
-    font-weight: 600;
-}
-
-.recap-row span:last-child {
-    color: var(--ink);
-    font-weight: 700;
-    text-align: right;
-    max-width: 60%;
-}
-
-@media (max-width: 400px) {
-    .card {
-        padding: 26px 18px;
-    }
-
-    .choice-zone {
-        height: 180px;
-    }
-
-    .choice-grid {
-        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-    }
-}
-
-</style></head><body><div class="floaters" id="floaters"></div><div class="stage">< !-- SCENE 1: LANDING --><div class="scene active" id="scene1"><div class="card"><div class="eyebrow">psst,
-yes you</div><h1>before we go any further,
-<br>what's your name?</h1>
- <p class="sub">just type it in and hit the button 👇</p><input type="text" id="nameInput" placeholder="Jane / Alex / you know who you are..." maxlength="30"><button class="btn-primary" id="enterBtn">Enter ✨</button></div></div>< !-- SCENE 2: QUESTION --><div class="scene" id="scene2"><div class="card"><div class="photo-slot" id="photoSlot1">📸 DROP YOUR RIZZ PHOTO HERE<br>(replace with images/rizz_photo.jpg) </div><h1 id="greeting">Hi <span class="name-highlight">Name</span>,
-are you single too? 👀<br>Would you like to explore the world with me?</h1><div class="choice-zone" id="choiceZone"><button class="btn-yes" id="yesBtn">Yes 🥹</button><button class="btn-no" id="noBtn">No</button></div></div></div>< !-- SCENE 3: RESULT --><div class="scene" id="scene3"><div class="card"><div class="photo-slot" id="photoSlot2">😏 DROP YOUR MEME IMAGE HERE<br>(replace with images/meme_photo.jpg) </div><p class="meme-caption">so you're interested to go travel with me 😏</p>
- <button class="btn-primary" id="continueBtn3">Continue ➡️</button></div></div>< !-- SCENE 4: WHAT TO BRING (multi, max 3) --><div class="scene wide" id="scene4"><div class="card"><div class="eyebrow">packing time</div><h1>what would you want to bring with me? 🎒</h1><p class="selection-hint" id="bringHint">pick up to 3</p><div class="choice-grid" id="bringGrid"></div><button class="btn-primary" id="bringNextBtn" disabled>Let's go 🚀</button>
- </div></div>< !-- SCENE 5: DESTINATION --><div class="scene wide" id="scene5"><div class="card"><div class="eyebrow">next stop</div><h1>so where are we going? 🗺️</h1><div class="choice-grid" id="destGrid"></div><button class="btn-primary" id="destNextBtn" disabled>Next ➡️</button></div></div>< !-- SCENE 6: TRANSPORTATION --><div class="scene wide" id="scene6"><div class="card"><div class="eyebrow">getting there</div><h1>what are we riding to get there? 🚀</h1><div class="choice-grid" id="transportGrid"></div><button class="btn-primary" id="transportNextBtn" disabled>Next ➡️</button></div></div>< !-- SCENE 7: FAVORITE --><div class="scene wide" id="scene7"><div class="card"><div class="eyebrow">for the trip</div><h1>pick your favorite 🍫</h1><div class="choice-grid" id="favGrid"></div><button class="btn-primary" id="favNextBtn" disabled>Next ➡️</button></div></div>< !-- SCENE 8: WHO --><div class="scene" id="scene8"><div class="card"><div class="eyebrow">last question</div><h1>so who's coming with you? 💭</h1>
- <div class="choice-grid who-grid" id="whoGrid"></div><button class="btn-primary" id="whoNextBtn" disabled>Reveal 💌</button></div></div>< !-- SCENE 9: RECAP / ENDING --><div class="scene" id="scene9"><div class="card"><div class="eyebrow">so,
-it's official</div>
- <h1 id="recapTitle">let's make it happen 💕</h1>
- <div class="recap-list" id="recapList"></div><button class="btn-primary" id="finalBtn">Let's go 🚀</button>
- </div></div>< !-- SCENE 10: HUGOT ENDING --><div class="scene" id="scene10"><div class="card"><div class="photo-slot" id="photoSlot3">📸 DROP YOUR IMAGE HERE<br>(replace with images/hugot_photo.jpg) </div><p class="meme-caption" id="hugotText">I know this is your fantasy,
-but there's no "us" yet… so what now? 🥹</p>
- <span class="restart-link" id="restartLink">run it back 🔁</span></div></div></div>< !-- palitan ng audio/bg_music.mp3 pag mayroon ka nang music file --><audio id="bgMusic" src="audio/bg_music.mp3" loop preload="none"></audio><script> // ---------- ambient floating hearts ----------
-const floaters=document.getElementById('floaters');
-const heartChars=['💗',
-'✨',
-'🩷',
-'💫'];
-
-for (let i=0; i < 14; i++) {
-    const el=document.createElement('span');
-    el.textContent=heartChars[Math.floor(Math.random()*heartChars.length)];
-    el.style.left=Math.random()*100+'vw';
-    el.style.animationDuration=(8 + Math.random()*10)+'s';
-    el.style.animationDelay=(Math.random()*10)+'s';
-    el.style.fontSize=(14 + Math.random()*16)+'px';
-    floaters.appendChild(el);
-}
-
-const scenes= {}
-
-;
-
-['scene1',
-'scene2',
-'scene3',
-'scene4',
-'scene5',
-'scene6',
-'scene7',
-'scene8',
-'scene9',
-'scene10'].forEach(id=> {
-        scenes[id]=document.getElementById(id);
-    });
-
-function showScene(id) {
-    Object.values(scenes).forEach(s=> s.classList.remove('active'));
-    scenes[id].classList.add('active');
-
-    window.scrollTo({
-        top: 0, behavior: 'smooth'
-    });
-}
-
-function escapeHtml(str) {
-    const div=document.createElement('div');
-    div.textContent=str;
-    return div.innerHTML;
-}
-
-// ---------- STATE ----------
-const state= {
-    name: '', bring: [], destination: '', transportation: '', favorite: '', who: ''
-}
-
-;
-
-// ---------- SCENE 1 -> 2 ----------
-const nameInput=document.getElementById('nameInput');
-const enterBtn=document.getElementById('enterBtn');
-const greeting=document.getElementById('greeting');
-
-enterBtn.addEventListener('click', goToScene2);
-
-nameInput.addEventListener('keydown', (e)=> {
-        if (e.key==='Enter') goToScene2();
-    });
-
-function goToScene2() {
-    state.name=nameInput.value.trim() || 'ikaw';
-
-    greeting.innerHTML=`Hi <span class="name-highlight">$ {
+< !DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Secret</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link
+            href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Poppins:wght@400;500;600&display=swap"
+            rel="stylesheet">
+        <style>
+            :root {
+                --bg-deep: #1a0b2e;
+                --bg-deep2: #2d1147;
+                --card: #fff9f0;
+                --hot-pink: #ff2e88;
+                --yellow: #ffd23f;
+                --ink: #2d1b3d;
+                --soft-purple: #b48cff;
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            html,
+            body {
+                min-height: 100%;
+            }
+
+            body {
+                font-family: 'Poppins', sans-serif;
+                background: radial-gradient(circle at 20% 20%, var(--bg-deep2), var(--bg-deep) 70%) fixed;
+                color: var(--ink);
+                position: relative;
+            }
+
+            /* floating ambient hearts */
+            .floaters {
+                position: fixed;
+                inset: 0;
+                pointer-events: none;
+                overflow: hidden;
+                z-index: 0;
+            }
+
+            .floaters span {
+                position: absolute;
+                bottom: -10%;
+                font-size: 20px;
+                opacity: 0.35;
+                animation: rise linear infinite;
+                color: var(--soft-purple);
+            }
+
+            @keyframes rise {
+                0% {
+                    transform: translateY(0) rotate(0deg);
+                    opacity: 0;
+                }
+
+                10% {
+                    opacity: 0.4;
+                }
+
+                100% {
+                    transform: translateY(-110vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+
+            .stage {
+                position: relative;
+                z-index: 1;
+                min-height: 100vh;
+                width: 100vw;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 40px 20px;
+            }
+
+            .scene {
+                display: none;
+                width: 100%;
+                max-width: 480px;
+                text-align: center;
+                animation: pop 0.5s cubic-bezier(.2, 1.4, .4, 1);
+            }
+
+            .scene.wide {
+                max-width: 580px;
+            }
+
+            .scene.active {
+                display: block;
+            }
+
+            @keyframes pop {
+                0% {
+                    opacity: 0;
+                    transform: scale(0.85) translateY(10px);
+                }
+
+                100% {
+                    opacity: 1;
+                    transform: scale(1) translateY(0);
+                }
+            }
+
+            .card {
+                background: var(--card);
+                border-radius: 28px;
+                padding: 36px 28px;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 0 6px rgba(255, 255, 255, 0.04);
+                position: relative;
+            }
+
+            .eyebrow {
+                font-family: 'Baloo 2', sans-serif;
+                font-weight: 700;
+                font-size: 13px;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                color: var(--hot-pink);
+                margin-bottom: 10px;
+            }
+
+            h1 {
+                font-family: 'Baloo 2', sans-serif;
+                font-weight: 800;
+                font-size: clamp(22px, 6vw, 30px);
+                line-height: 1.25;
+                color: var(--ink);
+                margin-bottom: 18px;
+            }
+
+            h1 .name-highlight {
+                color: var(--hot-pink);
+            }
+
+            p.sub {
+                font-size: 15px;
+                color: #6b5b7a;
+                margin-bottom: 22px;
+            }
+
+            input[type="text"] {
+                width: 100%;
+                padding: 16px 18px;
+                border-radius: 16px;
+                border: 2px solid #eadfff;
+                font-family: 'Poppins', sans-serif;
+                font-size: 16px;
+                background: #fdfaff;
+                color: var(--ink);
+                outline: none;
+                margin-bottom: 16px;
+                transition: border-color 0.2s;
+            }
+
+            input[type="text"]:focus {
+                border-color: var(--hot-pink);
+            }
+
+            .btn-primary {
+                font-family: 'Baloo 2', sans-serif;
+                font-weight: 700;
+                font-size: 17px;
+                color: #fff;
+                background: linear-gradient(135deg, var(--hot-pink), #ff5fa2);
+                border: none;
+                border-radius: 16px;
+                padding: 15px 28px;
+                cursor: pointer;
+                width: 100%;
+                box-shadow: 0 8px 20px rgba(255, 46, 136, 0.35);
+                transition: transform 0.15s ease, opacity 0.2s ease;
+            }
+
+            .btn-primary:hover {
+                transform: translateY(-2px) scale(1.02);
+            }
+
+            .btn-primary:active {
+                transform: translateY(0) scale(0.98);
+            }
+
+            .btn-primary:disabled {
+                opacity: 0.4;
+                cursor: not-allowed;
+                transform: none;
+            }
+
+            .photo-slot {
+                width: 100%;
+                aspect-ratio: 4/3;
+                border-radius: 20px;
+                margin-bottom: 20px;
+                background: repeating-linear-gradient(45deg, #f3e9ff, #f3e9ff 10px, #ece0ff 10px, #ece0ff 20px);
+                border: 3px dashed var(--soft-purple);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #8b6fc9;
+                font-family: 'Baloo 2', sans-serif;
+                font-weight: 700;
+                font-size: 14px;
+                text-align: center;
+                padding: 12px;
+                overflow: hidden;
+            }
+
+            .photo-slot img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 16px;
+            }
+
+            /* Scene 2 button zone */
+            .choice-zone {
+                position: relative;
+                height: 160px;
+                margin-top: 6px;
+            }
+
+            .btn-yes,
+            .btn-no {
+                font-family: 'Baloo 2', sans-serif;
+                font-weight: 700;
+                border: none;
+                border-radius: 14px;
+                cursor: pointer;
+                position: absolute;
+                top: 8px;
+                transition: left 0.35s cubic-bezier(.2, 1, .3, 1), top 0.35s cubic-bezier(.2, 1, .3, 1), width 0.3s ease, height 0.3s ease, font-size 0.3s ease, transform 0.15s ease;
+            }
+
+            .btn-yes {
+                left: 16%;
+                background: linear-gradient(135deg, #34d399, #10b981);
+                color: #fff;
+                width: 120px;
+                height: 52px;
+                font-size: 16px;
+                box-shadow: 0 8px 18px rgba(16, 185, 129, 0.35);
+                z-index: 3;
+            }
+
+            .btn-yes:hover {
+                transform: scale(1.05);
+            }
+
+            .btn-no {
+                left: 56%;
+                background: #fff;
+                color: var(--ink);
+                border: 2px solid #e5d9f5;
+                width: 120px;
+                height: 52px;
+                font-size: 16px;
+                z-index: 2;
+            }
+
+            .meme-caption {
+                font-family: 'Baloo 2', sans-serif;
+                font-weight: 700;
+                font-size: 18px;
+                color: var(--ink);
+                margin-top: 4px;
+                margin-bottom: 20px;
+            }
+
+            .restart-link {
+                display: inline-block;
+                margin-top: 18px;
+                font-size: 13px;
+                color: #9b8bb5;
+                text-decoration: underline;
+                cursor: pointer;
+            }
+
+            /* Choice grid (used for bring / destination / transportation / favorite / who) */
+            .choice-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+                gap: 12px;
+                margin-bottom: 22px;
+            }
+
+            .choice-grid.who-grid {
+                grid-template-columns: repeat(2, 1fr);
+                max-width: 320px;
+                margin-left: auto;
+                margin-right: auto;
+                gap: 18px;
+            }
+
+            .choice-card {
+                cursor: pointer;
+                border-radius: 16px;
+                padding: 8px;
+                border: 2.5px solid transparent;
+                background: #fdfaff;
+                transition: transform 0.15s ease, border-color 0.2s ease, background 0.2s ease;
+            }
+
+            .choice-card:hover {
+                transform: translateY(-2px);
+            }
+
+            .choice-card.selected {
+                border-color: var(--hot-pink);
+                background: #fff0f7;
+                transform: translateY(-2px) scale(1.03);
+            }
+
+            .choice-card.shake {
+                animation: shake 0.3s;
+            }
+
+            @keyframes shake {
+
+                0%,
+                100% {
+                    transform: translateX(0);
+                }
+
+                25% {
+                    transform: translateX(-4px);
+                }
+
+                75% {
+                    transform: translateX(4px);
+                }
+            }
+
+            .choice-img-wrap {
+                position: relative;
+                width: 100%;
+                aspect-ratio: 1/1;
+                border-radius: 12px;
+                overflow: hidden;
+                margin-bottom: 8px;
+                background: repeating-linear-gradient(45deg, #f3e9ff, #f3e9ff 8px, #ece0ff 8px, #ece0ff 16px);
+                border: 2px dashed var(--soft-purple);
+            }
+
+            .choice-img-wrap img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+            }
+
+            .choice-fallback {
+                position: absolute;
+                inset: 0;
+                display: none;
+                align-items: center;
+                justify-content: center;
+                font-size: 28px;
+            }
+
+            .choice-label {
+                font-family: 'Baloo 2', sans-serif;
+                font-weight: 700;
+                font-size: 12.5px;
+                color: var(--ink);
+                display: block;
+            }
+
+            .who-grid .choice-img-wrap {
+                aspect-ratio: 4/5;
+            }
+
+            .who-grid .choice-label {
+                font-size: 15px;
+            }
+
+            .selection-hint {
+                font-size: 12.5px;
+                color: #9b8bb5;
+                margin-top: -12px;
+                margin-bottom: 16px;
+            }
+
+            /* recap scene */
+            .recap-list {
+                text-align: left;
+                margin-bottom: 22px;
+            }
+
+            .recap-row {
+                display: flex;
+                justify-content: space-between;
+                padding: 10px 0;
+                border-bottom: 1px dashed #eadfff;
+                font-size: 14px;
+            }
+
+            .recap-row span:first-child {
+                color: #9b8bb5;
+                font-weight: 600;
+            }
+
+            .recap-row span:last-child {
+                color: var(--ink);
+                font-weight: 700;
+                text-align: right;
+                max-width: 60%;
+            }
+
+            @media (max-width: 400px) {
+                .card {
+                    padding: 26px 18px;
+                }
+
+                .choice-zone {
+                    height: 180px;
+                }
+
+                .choice-grid {
+                    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="floaters" id="floaters"></div>
+        <div class="stage">
+            < !-- SCENE 1: LANDING -->
+                <div class="scene active" id="scene1">
+                    <div class="card">
+                        <div class="eyebrow">psst,
+                            yes you</div>
+                        <h1>before we go any further,
+                            <br>what's your name?
+                        </h1>
+                        <p class="sub">just type it in and hit the button 👇</p><input type="text" id="nameInput"
+                            placeholder="Jane / Alex / you know who you are..." maxlength="30"><button
+                            class="btn-primary" id="enterBtn">Enter ✨</button>
+                    </div>
+                </div>
+                < !-- SCENE 2: QUESTION -->
+                    <div class="scene" id="scene2">
+                        <div class="card">
+                            <div class="photo-slot" id="photoSlot1">📸 DROP YOUR RIZZ PHOTO HERE<br>(replace with
+                                images/rizz_photo.jpg) </div>
+                            <h1 id="greeting">Hi <span class="name-highlight">Name</span>,
+                                secret<br>Would you like to explore the world with me?</h1>
+                            <div class="choice-zone" id="choiceZone"><button class="btn-yes" id="yesBtn">Yes
+                                    🥹</button><button class="btn-no" id="noBtn">No</button></div>
+                        </div>
+                    </div>
+                    < !-- SCENE 3: RESULT -->
+                        <div class="scene" id="scene3">
+                            <div class="card">
+                                <div class="photo-slot" id="photoSlot2">😏 DROP YOUR MEME IMAGE HERE<br>(replace with
+                                    images/meme_photo.jpg) </div>
+                                <p class="meme-caption">so you're interested to go travel with me 😏</p>
+                                <button class="btn-primary" id="continueBtn3">Continue ➡️</button>
+                            </div>
+                        </div>
+                        < !-- SCENE 4: WHAT TO BRING (multi, max 3) -->
+                            <div class="scene wide" id="scene4">
+                                <div class="card">
+                                    <div class="eyebrow">packing time</div>
+                                    <h1>what would you want to bring with me? 🎒</h1>
+                                    <p class="selection-hint" id="bringHint">pick up to 3</p>
+                                    <div class="choice-grid" id="bringGrid"></div><button class="btn-primary"
+                                        id="bringNextBtn" disabled>Let's go 🚀</button>
+                                </div>
+                            </div>
+                            < !-- SCENE 5: DESTINATION -->
+                                <div class="scene wide" id="scene5">
+                                    <div class="card">
+                                        <div class="eyebrow">next stop</div>
+                                        <h1>so where are we going? 🗺️</h1>
+                                        <div class="choice-grid" id="destGrid"></div><button class="btn-primary"
+                                            id="destNextBtn" disabled>Next ➡️</button>
+                                    </div>
+                                </div>
+                                < !-- SCENE 6: TRANSPORTATION -->
+                                    <div class="scene wide" id="scene6">
+                                        <div class="card">
+                                            <div class="eyebrow">getting there</div>
+                                            <h1>what are we riding to get there? 🚀</h1>
+                                            <div class="choice-grid" id="transportGrid"></div><button
+                                                class="btn-primary" id="transportNextBtn" disabled>Next ➡️</button>
+                                        </div>
+                                    </div>
+                                    < !-- SCENE 7: FAVORITE -->
+                                        <div class="scene wide" id="scene7">
+                                            <div class="card">
+                                                <div class="eyebrow">for the trip</div>
+                                                <h1>pick your favorite 🍫</h1>
+                                                <div class="choice-grid" id="favGrid"></div><button class="btn-primary"
+                                                    id="favNextBtn" disabled>Next ➡️</button>
+                                            </div>
+                                        </div>
+                                        < !-- SCENE 8: WHO -->
+                                            <div class="scene" id="scene8">
+                                                <div class="card">
+                                                    <div class="eyebrow">last question</div>
+                                                    <h1>so who's coming with you? 💭</h1>
+                                                    <div class="choice-grid who-grid" id="whoGrid"></div><button
+                                                        class="btn-primary" id="whoNextBtn" disabled>Reveal 💌</button>
+                                                </div>
+                                            </div>
+                                            < !-- SCENE 9: RECAP / ENDING -->
+                                                <div class="scene" id="scene9">
+                                                    <div class="card">
+                                                        <div class="eyebrow">so,
+                                                            it's official</div>
+                                                        <h1 id="recapTitle">let's make it happen 💕</h1>
+                                                        <div class="recap-list" id="recapList"></div><button
+                                                            class="btn-primary" id="finalBtn">Let's go 🚀</button>
+                                                    </div>
+                                                </div>
+                                                < !-- SCENE 10: HUGOT ENDING -->
+                                                    <div class="scene" id="scene10">
+                                                        <div class="card">
+                                                            <div class="photo-slot" id="photoSlot3">📸 DROP YOUR IMAGE
+                                                                HERE<br>(replace with images/hugot_photo.jpg) </div>
+                                                            <p class="meme-caption" id="hugotText">I know this is your
+                                                                fantasy,
+                                                                but there's no "us" yet… so what now? 🥹</p>
+                                                            <span class="restart-link" id="restartLink">run it back
+                                                                🔁</span>
+                                                        </div>
+                                                    </div>
+        </div>
+        < !-- palitan ng audio/bg_music.mp3 pag mayroon ka nang music file --><audio id="bgMusic"
+                src="audio/bg_music.mp3" loop preload="none"></audio>
+            <script> // ---------- ambient floating hearts ----------
+                const floaters = document.getElementById('floaters');
+                const heartChars = ['💗',
+                    '✨',
+                    '🩷',
+                    '💫'];
+
+                for (let i = 0; i < 14; i++) {
+                    const el = document.createElement('span');
+                    el.textContent = heartChars[Math.floor(Math.random() * heartChars.length)];
+                    el.style.left = Math.random() * 100 + 'vw';
+                    el.style.animationDuration = (8 + Math.random() * 10) + 's';
+                    el.style.animationDelay = (Math.random() * 10) + 's';
+                    el.style.fontSize = (14 + Math.random() * 16) + 'px';
+                    floaters.appendChild(el);
+                }
+
+                const scenes = {}
+
+                    ;
+
+                ['scene1',
+                    'scene2',
+                    'scene3',
+                    'scene4',
+                    'scene5',
+                    'scene6',
+                    'scene7',
+                    'scene8',
+                    'scene9',
+                    'scene10'].forEach(id => {
+                        scenes[id] = document.getElementById(id);
+                    });
+
+                function showScene(id) {
+                    Object.values(scenes).forEach(s => s.classList.remove('active'));
+                    scenes[id].classList.add('active');
+
+                    window.scrollTo({
+                        top: 0, behavior: 'smooth'
+                    });
+                }
+
+                function escapeHtml(str) {
+                    const div = document.createElement('div');
+                    div.textContent = str;
+                    return div.innerHTML;
+                }
+
+                // ---------- STATE ----------
+                const state = {
+                    name: '', bring: [], destination: '', transportation: '', favorite: '', who: ''
+                }
+
+                    ;
+
+                // ---------- SCENE 1 -> 2 ----------
+                const nameInput = document.getElementById('nameInput');
+                const enterBtn = document.getElementById('enterBtn');
+                const greeting = document.getElementById('greeting');
+
+                enterBtn.addEventListener('click', goToScene2);
+
+                nameInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') goToScene2();
+                });
+
+                function goToScene2() {
+                    state.name = nameInput.value.trim() || 'ikaw';
+
+                    greeting.innerHTML = `Hi <span class="name-highlight">$ {
         escapeHtml(state.name)
     }
 
     </span>,
-    are you man din? 👀<br>Would you like to explore the world with me?`;
-    showScene('scene2');
-    resetNoButton();
-}
-
-// ---------- SCENE 2: runaway No button ----------
-const yesBtn=document.getElementById('yesBtn');
-const noBtn=document.getElementById('noBtn');
-const choiceZone=document.getElementById('choiceZone');
-
-let yesScale=1;
-const MAX_SCALE=2.2;
-
-function resetNoButton() {
-    yesScale=1;
-    noBtn.style.width='120px';
-    noBtn.style.height='52px';
-    noBtn.style.fontSize='16px';
-    yesBtn.style.width='120px';
-    yesBtn.style.height='52px';
-    yesBtn.style.fontSize='16px';
-    noBtn.style.left='56%';
-    noBtn.style.top='8px';
-    yesBtn.style.left='16%';
-    yesBtn.style.top='8px';
-}
-
-function randomPositionAwayFrom(zone) {
-    const zoneRect=zone.getBoundingClientRect();
-    const btnW=noBtn.offsetWidth,
-    btnH=noBtn.offsetHeight;
-    const maxLeftPx=Math.max(zoneRect.width - btnW - 8, 8);
-    const maxTopPx=Math.max(zoneRect.height - btnH - 8, 8);
-    const leftPx=Math.random() * maxLeftPx;
-    const topPx=Math.random() * maxTopPx;
-    noBtn.style.left=(leftPx / zoneRect.width * 100)+'%';
-    noBtn.style.top=topPx+'px';
-}
-
-function growYesButton() {
-    yesScale=Math.min(yesScale + 0.18, MAX_SCALE);
-    yesBtn.style.width=(120 * yesScale)+'px';
-    yesBtn.style.height=(52 * yesScale)+'px';
-    yesBtn.style.fontSize=(16 * yesScale)+'px';
-}
-
-noBtn.addEventListener('click', (e)=> {
-        e.preventDefault();
-        growYesButton();
-        randomPositionAwayFrom(choiceZone);
-    });
-
-let dodging=false;
-
-choiceZone.addEventListener('mousemove', (e)=> {
-        if (dodging) return;
-        const btnRect=noBtn.getBoundingClientRect();
-        const btnCenterX=btnRect.left + btnRect.width / 2;
-        const btnCenterY=btnRect.top + btnRect.height / 2;
-        const dist=Math.hypot(e.clientX - btnCenterX, e.clientY - btnCenterY);
-        const threshold=Math.max(btnRect.width, btnRect.height) * 0.9;
-
-        if (dist < threshold) {
-            dodging=true;
-            randomPositionAwayFrom(choiceZone);
-
-            setTimeout(()=> {
-                    dodging=false;
+    secret<br>Would you like to explore the world with me?`;
+                    showScene('scene2');
+                    resetNoButton();
                 }
 
-                , 380);
-        }
-    });
+                // ---------- SCENE 2: runaway No button ----------
+                const yesBtn = document.getElementById('yesBtn');
+                const noBtn = document.getElementById('noBtn');
+                const choiceZone = document.getElementById('choiceZone');
 
-yesBtn.addEventListener('click', ()=> showScene('scene3'));
+                let yesScale = 1;
+                const MAX_SCALE = 2.2;
 
-// ---------- SCENE 3 -> 4 ----------
-document.getElementById('continueBtn3').addEventListener('click', ()=> showScene('scene4'));
+                function resetNoButton() {
+                    yesScale = 1;
+                    noBtn.style.width = '120px';
+                    noBtn.style.height = '52px';
+                    noBtn.style.fontSize = '16px';
+                    yesBtn.style.width = '120px';
+                    yesBtn.style.height = '52px';
+                    yesBtn.style.fontSize = '16px';
+                    noBtn.style.left = '56%';
+                    noBtn.style.top = '8px';
+                    yesBtn.style.left = '16%';
+                    yesBtn.style.top = '8px';
+                }
 
-// ---------- CHOICE DATA ----------
-const BRING_ITEMS=[ {
-    key: 'food', label: 'Food', emoji: '🍱', img: 'images/bring_food.jpg'
-}
+                function randomPositionAwayFrom(zone) {
+                    const zoneRect = zone.getBoundingClientRect();
+                    const btnW = noBtn.offsetWidth,
+                        btnH = noBtn.offsetHeight;
+                    const maxLeftPx = Math.max(zoneRect.width - btnW - 8, 8);
+                    const maxTopPx = Math.max(zoneRect.height - btnH - 8, 8);
+                    const leftPx = Math.random() * maxLeftPx;
+                    const topPx = Math.random() * maxTopPx;
+                    noBtn.style.left = (leftPx / zoneRect.width * 100) + '%';
+                    noBtn.style.top = topPx + 'px';
+                }
 
-,
-{
-key: 'tent', label: 'Tent', emoji: '⛺', img: 'images/bring_tent.jpg'
-}
+                function growYesButton() {
+                    yesScale = Math.min(yesScale + 0.18, MAX_SCALE);
+                    yesBtn.style.width = (120 * yesScale) + 'px';
+                    yesBtn.style.height = (52 * yesScale) + 'px';
+                    yesBtn.style.fontSize = (16 * yesScale) + 'px';
+                }
 
-,
-{
-key: 'motorcycle', label: 'Motorcycle', emoji: '🏍️', img: 'images/bring_motorcycle.jpg'
-}
+                noBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    growYesButton();
+                    randomPositionAwayFrom(choiceZone);
+                });
 
-,
-{
-key: 'horse', label: 'Horse', emoji: '🐴', img: 'images/bring_horse.jpg'
-}
+                let dodging = false;
 
-,
-{
-key: 'dog', label: 'Dog', emoji: '🐶', img: 'images/bring_dog.jpg'
-}
+                choiceZone.addEventListener('mousemove', (e) => {
+                    if (dodging) return;
+                    const btnRect = noBtn.getBoundingClientRect();
+                    const btnCenterX = btnRect.left + btnRect.width / 2;
+                    const btnCenterY = btnRect.top + btnRect.height / 2;
+                    const dist = Math.hypot(e.clientX - btnCenterX, e.clientY - btnCenterY);
+                    const threshold = Math.max(btnRect.width, btnRect.height) * 0.9;
 
-,
-{
-key: 'wifi', label: 'Wifi', emoji: '📶', img: 'images/bring_wifi.jpg'
-}
+                    if (dist < threshold) {
+                        dodging = true;
+                        randomPositionAwayFrom(choiceZone);
 
-,
-{
-key: 'rope', label: 'Rope', emoji: '🪢', img: 'images/bring_rope.jpg'
-}
+                        setTimeout(() => {
+                            dodging = false;
+                        }
 
-,
-{
-key: 'soap', label: 'Soap', emoji: '🧼', img: 'images/bring_soap.jpg'
-}
+                            , 380);
+                    }
+                });
 
-,
-{
-key: 'guitar', label: 'Guitar', emoji: '🎸', img: 'images/bring_guitar.jpg'
-}
+                yesBtn.addEventListener('click', () => showScene('scene3'));
 
-,
-{
-key: 'flashlight', label: 'Flashlight', emoji: '🔦', img: 'images/bring_flashlight.jpg'
-}
+                // ---------- SCENE 3 -> 4 ----------
+                document.getElementById('continueBtn3').addEventListener('click', () => showScene('scene4'));
 
-];
+                // ---------- CHOICE DATA ----------
+                const BRING_ITEMS = [{
+                    key: 'food', label: 'Food', emoji: '🍱', img: 'images/bring_food.jpg'
+                }
 
-const DESTINATIONS=[ {
-    key: 'konoha', label: 'The Village of Konoha', emoji: '🍥', img: 'images/dest_konoha.jpg'
-}
+                    ,
+                {
+                    key: 'tent', label: 'Tent', emoji: '⛺', img: 'images/bring_tent.jpg'
+                }
 
-,
-{
-key: 'ghibli', label: 'Ghibli World', emoji: '🌱', img: 'images/dest_ghibli.jpg'
-}
+                    ,
+                {
+                    key: 'motorcycle', label: 'Motorcycle', emoji: '🏍️', img: 'images/bring_motorcycle.jpg'
+                }
 
-,
-{
-key: 'disneyland', label: 'Disneyland', emoji: '🏰', img: 'images/dest_disneyland.jpg'
-}
+                    ,
+                {
+                    key: 'horse', label: 'Horse', emoji: '🐴', img: 'images/bring_horse.jpg'
+                }
 
-,
-{
-key: 'neverland', label: 'Neverland', emoji: '🧚', img: 'images/dest_neverland.jpg'
-}
+                    ,
+                {
+                    key: 'dog', label: 'Dog', emoji: '🐶', img: 'images/bring_dog.jpg'
+                }
 
-];
+                    ,
+                {
+                    key: 'wifi', label: 'Wifi', emoji: '📶', img: 'images/bring_wifi.jpg'
+                }
 
-const TRANSPORTATION=[ {
-    key: 'motorcycle', label: 'Motorcycle', emoji: '🏍️', img: 'images/transport_motorcycle.jpg'
-}
+                    ,
+                {
+                    key: 'rope', label: 'Rope', emoji: '🪢', img: 'images/bring_rope.jpg'
+                }
 
-,
-{
-key: 'car', label: 'Car', emoji: '🚗', img: 'images/transport_car.jpg'
-}
+                    ,
+                {
+                    key: 'soap', label: 'Soap', emoji: '🧼', img: 'images/bring_soap.jpg'
+                }
 
-,
-{
-key: 'horse', label: 'Horse', emoji: '🐴', img: 'images/transport_horse.jpg'
-}
+                    ,
+                {
+                    key: 'guitar', label: 'Guitar', emoji: '🎸', img: 'images/bring_guitar.jpg'
+                }
 
-,
-{
-key: 'goat', label: 'Goat', emoji: '🐐', img: 'images/transport_goat.jpg'
-}
+                    ,
+                {
+                    key: 'flashlight', label: 'Flashlight', emoji: '🔦', img: 'images/bring_flashlight.jpg'
+                }
 
-,
-{
-key: 'dog', label: 'Dog', emoji: '🐶', img: 'images/transport_dog.jpg'
-}
+                ];
 
-,
-{
-key: 'endportal', label: 'End Portal', emoji: '🌀', img: 'images/transport_endportal.jpg'
-}
+                const DESTINATIONS = [{
+                    key: 'konoha', label: 'The Village of Konoha', emoji: '🍥', img: 'images/dest_konoha.jpg'
+                }
 
-,
-{
-key: 'carpet', label: 'Magic Carpet', emoji: '🧞', img: 'images/transport_carpet.jpg'
-}
+                    ,
+                {
+                    key: 'ghibli', label: 'Ghibli World', emoji: '🌱', img: 'images/dest_ghibli.jpg'
+                }
 
-,
-{
-key: 'louyi', label: 'Ulti ni Lou Yi', emoji: '⚡', img: 'images/transport_louyi.jpg'
-}
+                    ,
+                {
+                    key: 'disneyland', label: 'Disneyland', emoji: '🏰', img: 'images/dest_disneyland.jpg'
+                }
 
-];
+                    ,
+                {
+                    key: 'neverland', label: 'Neverland', emoji: '🧚', img: 'images/dest_neverland.jpg'
+                }
 
-const FAVORITES=[ {
-    key: 'chocolate', label: 'Chocolate', emoji: '🍫', img: 'images/fav_chocolate.jpg'
-}
+                ];
 
-,
-{
-key: 'milk', label: 'Milk', emoji: '🥛', img: 'images/fav_milk.jpg'
-}
+                const TRANSPORTATION = [{
+                    key: 'motorcycle', label: 'Motorcycle', emoji: '🏍️', img: 'images/transport_motorcycle.jpg'
+                }
 
-,
-{
-key: 'coffee', label: 'Coffee', emoji: '☕', img: 'images/fav_coffee.jpg'
-}
+                    ,
+                {
+                    key: 'car', label: 'Car', emoji: '🚗', img: 'images/transport_car.jpg'
+                }
 
-,
-{
-key: 'icecream', label: 'Ice Cream', emoji: '🍦', img: 'images/fav_icecream.jpg'
-}
+                    ,
+                {
+                    key: 'horse', label: 'Horse', emoji: '🐴', img: 'images/transport_horse.jpg'
+                }
 
-];
+                    ,
+                {
+                    key: 'goat', label: 'Goat', emoji: '🐐', img: 'images/transport_goat.jpg'
+                }
 
-const WHO=[ {
-    key: 'siya', label: 'THEM', img: 'images/who_siya.jpg'
-}
+                    ,
+                {
+                    key: 'dog', label: 'Dog', emoji: '🐶', img: 'images/transport_dog.jpg'
+                }
 
-,
-{
-key: 'me', label: 'ME', img: 'images/who_me.jpg'
-}
+                    ,
+                {
+                    key: 'endportal', label: 'End Portal', emoji: '🌀', img: 'images/transport_endportal.jpg'
+                }
 
-];
+                    ,
+                {
+                    key: 'carpet', label: 'Magic Carpet', emoji: '🧞', img: 'images/transport_carpet.jpg'
+                }
 
-// ---------- GENERIC CHOICE GRID RENDERER ----------
-function renderChoiceGrid(containerId, items, {
-    multi=false, max=1
-}
+                    ,
+                {
+                    key: 'louyi', label: 'Ulti ni Lou Yi', emoji: '⚡', img: 'images/transport_louyi.jpg'
+                }
 
-= {}) {
-    const container=document.getElementById(containerId);
-    container.innerHTML='';
+                ];
 
-    items.forEach(item=> {
-            const card=document.createElement('div');
-            card.className='choice-card';
-            card.dataset.key=item.key;
+                const FAVORITES = [{
+                    key: 'chocolate', label: 'Chocolate', emoji: '🍫', img: 'images/fav_chocolate.jpg'
+                }
 
-            card.innerHTML=` <div class="choice-img-wrap" > <img src="${item.img}" alt="${item.label}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" > <div class="choice-fallback" >$ {
+                    ,
+                {
+                    key: 'milk', label: 'Milk', emoji: '🥛', img: 'images/fav_milk.jpg'
+                }
+
+                    ,
+                {
+                    key: 'coffee', label: 'Coffee', emoji: '☕', img: 'images/fav_coffee.jpg'
+                }
+
+                    ,
+                {
+                    key: 'icecream', label: 'Ice Cream', emoji: '🍦', img: 'images/fav_icecream.jpg'
+                }
+
+                ];
+
+                const WHO = [{
+                    key: 'siya', label: 'THEM', img: 'images/who_siya.jpg'
+                }
+
+                    ,
+                {
+                    key: 'me', label: 'ME', img: 'images/who_me.jpg'
+                }
+
+                ];
+
+                // ---------- GENERIC CHOICE GRID RENDERER ----------
+                function renderChoiceGrid(containerId, items, {
+                    multi = false, max = 1
+                }
+
+                    = {}) {
+                    const container = document.getElementById(containerId);
+                    container.innerHTML = '';
+
+                    items.forEach(item => {
+                        const card = document.createElement('div');
+                        card.className = 'choice-card';
+                        card.dataset.key = item.key;
+
+                        card.innerHTML = ` <div class="choice-img-wrap" > <img src="${item.img}" alt="${item.label}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" > <div class="choice-fallback" >$ {
                 item.emoji || '🖼️'
             }
 
@@ -753,167 +861,167 @@ function renderChoiceGrid(containerId, items, {
             }
 
             </span> `;
-            container.appendChild(card);
-        });
-    return container;
-}
+                        container.appendChild(card);
+                    });
+                    return container;
+                }
 
-function shakeCard(card) {
-    card.classList.add('shake');
-    setTimeout(()=> card.classList.remove('shake'), 300);
-}
+                function shakeCard(card) {
+                    card.classList.add('shake');
+                    setTimeout(() => card.classList.remove('shake'), 300);
+                }
 
-// ---------- SCENE 4: BRING (multi max 3) ----------
-const bringGrid=renderChoiceGrid('bringGrid', BRING_ITEMS, {
-    multi: true, max: 3
-});
-const bringNextBtn=document.getElementById('bringNextBtn');
-const bringHint=document.getElementById('bringHint');
+                // ---------- SCENE 4: BRING (multi max 3) ----------
+                const bringGrid = renderChoiceGrid('bringGrid', BRING_ITEMS, {
+                    multi: true, max: 3
+                });
+                const bringNextBtn = document.getElementById('bringNextBtn');
+                const bringHint = document.getElementById('bringHint');
 
-bringGrid.addEventListener('click', (e)=> {
-        const card=e.target.closest('.choice-card');
-        if ( !card) return;
-        const key=card.dataset.key;
-        const idx=state.bring.indexOf(key);
+                bringGrid.addEventListener('click', (e) => {
+                    const card = e.target.closest('.choice-card');
+                    if (!card) return;
+                    const key = card.dataset.key;
+                    const idx = state.bring.indexOf(key);
 
-        if (idx > -1) {
-            state.bring.splice(idx, 1);
-            card.classList.remove('selected');
-        }
+                    if (idx > -1) {
+                        state.bring.splice(idx, 1);
+                        card.classList.remove('selected');
+                    }
 
-        else {
-            if (state.bring.length >=3) {
-                shakeCard(card); return;
-            }
+                    else {
+                        if (state.bring.length >= 3) {
+                            shakeCard(card); return;
+                        }
 
-            state.bring.push(key);
-            card.classList.add('selected');
-        }
+                        state.bring.push(key);
+                        card.classList.add('selected');
+                    }
 
-        bringHint.textContent=`selected: $ {
+                    bringHint.textContent = `selected: $ {
             state.bring.length
         }
 
         /3`;
-        bringNextBtn.disabled=state.bring.length===0;
-    });
+                    bringNextBtn.disabled = state.bring.length === 0;
+                });
 
-bringNextBtn.addEventListener('click', ()=> showScene('scene5'));
+                bringNextBtn.addEventListener('click', () => showScene('scene5'));
 
-// ---------- SCENE 5: DESTINATION (single) ----------
-const destGrid=renderChoiceGrid('destGrid', DESTINATIONS);
-const destNextBtn=document.getElementById('destNextBtn');
+                // ---------- SCENE 5: DESTINATION (single) ----------
+                const destGrid = renderChoiceGrid('destGrid', DESTINATIONS);
+                const destNextBtn = document.getElementById('destNextBtn');
 
-destGrid.addEventListener('click', (e)=> {
-        const card=e.target.closest('.choice-card');
-        if ( !card) return;
-        [...destGrid.children].forEach(c=> c.classList.remove('selected'));
-        card.classList.add('selected');
-        state.destination=card.dataset.key;
-        destNextBtn.disabled=false;
-    });
+                destGrid.addEventListener('click', (e) => {
+                    const card = e.target.closest('.choice-card');
+                    if (!card) return;
+                    [...destGrid.children].forEach(c => c.classList.remove('selected'));
+                    card.classList.add('selected');
+                    state.destination = card.dataset.key;
+                    destNextBtn.disabled = false;
+                });
 
-destNextBtn.addEventListener('click', ()=> showScene('scene6'));
+                destNextBtn.addEventListener('click', () => showScene('scene6'));
 
-// ---------- SCENE 6: TRANSPORTATION (single) ----------
-const transportGrid=renderChoiceGrid('transportGrid', TRANSPORTATION);
-const transportNextBtn=document.getElementById('transportNextBtn');
+                // ---------- SCENE 6: TRANSPORTATION (single) ----------
+                const transportGrid = renderChoiceGrid('transportGrid', TRANSPORTATION);
+                const transportNextBtn = document.getElementById('transportNextBtn');
 
-transportGrid.addEventListener('click', (e)=> {
-        const card=e.target.closest('.choice-card');
-        if ( !card) return;
-        [...transportGrid.children].forEach(c=> c.classList.remove('selected'));
-        card.classList.add('selected');
-        state.transportation=card.dataset.key;
-        transportNextBtn.disabled=false;
-    });
+                transportGrid.addEventListener('click', (e) => {
+                    const card = e.target.closest('.choice-card');
+                    if (!card) return;
+                    [...transportGrid.children].forEach(c => c.classList.remove('selected'));
+                    card.classList.add('selected');
+                    state.transportation = card.dataset.key;
+                    transportNextBtn.disabled = false;
+                });
 
-transportNextBtn.addEventListener('click', ()=> showScene('scene7'));
+                transportNextBtn.addEventListener('click', () => showScene('scene7'));
 
-// ---------- SCENE 7: FAVORITE (single) ----------
-const favGrid=renderChoiceGrid('favGrid', FAVORITES);
-const favNextBtn=document.getElementById('favNextBtn');
+                // ---------- SCENE 7: FAVORITE (single) ----------
+                const favGrid = renderChoiceGrid('favGrid', FAVORITES);
+                const favNextBtn = document.getElementById('favNextBtn');
 
-favGrid.addEventListener('click', (e)=> {
-        const card=e.target.closest('.choice-card');
-        if ( !card) return;
-        [...favGrid.children].forEach(c=> c.classList.remove('selected'));
-        card.classList.add('selected');
-        state.favorite=card.dataset.key;
-        favNextBtn.disabled=false;
-    });
+                favGrid.addEventListener('click', (e) => {
+                    const card = e.target.closest('.choice-card');
+                    if (!card) return;
+                    [...favGrid.children].forEach(c => c.classList.remove('selected'));
+                    card.classList.add('selected');
+                    state.favorite = card.dataset.key;
+                    favNextBtn.disabled = false;
+                });
 
-favNextBtn.addEventListener('click', ()=> showScene('scene8'));
+                favNextBtn.addEventListener('click', () => showScene('scene8'));
 
-// ---------- SCENE 8: WHO (single, with shrink/grow gag) ----------
-const whoGrid=renderChoiceGrid('whoGrid', WHO);
-const whoNextBtn=document.getElementById('whoNextBtn');
+                // ---------- SCENE 8: WHO (single, with shrink/grow gag) ----------
+                const whoGrid = renderChoiceGrid('whoGrid', WHO);
+                const whoNextBtn = document.getElementById('whoNextBtn');
 
-const whoScale= {
-    siya: 1, me: 1
-}
+                const whoScale = {
+                    siya: 1, me: 1
+                }
 
-;
-const WHO_MIN=0.35,
-WHO_MAX=1.8,
-WHO_STEP=0.15;
+                    ;
+                const WHO_MIN = 0.35,
+                    WHO_MAX = 1.8,
+                    WHO_STEP = 0.15;
 
-function applyWhoScale() {
-    const siyaCard=whoGrid.querySelector('[data-key="siya"]');
-    const meCard=whoGrid.querySelector('[data-key="me"]');
+                function applyWhoScale() {
+                    const siyaCard = whoGrid.querySelector('[data-key="siya"]');
+                    const meCard = whoGrid.querySelector('[data-key="me"]');
 
-    if (siyaCard) siyaCard.style.transform=`scale($ {
+                    if (siyaCard) siyaCard.style.transform = `scale($ {
             whoScale.siya
         })`;
 
-    if (meCard) meCard.style.transform=`scale($ {
+                    if (meCard) meCard.style.transform = `scale($ {
             whoScale.me
         })`;
-}
+                }
 
-whoGrid.addEventListener('click', (e)=> {
-        const card=e.target.closest('.choice-card');
-        if ( !card) return;
-        const key=card.dataset.key;
+                whoGrid.addEventListener('click', (e) => {
+                    const card = e.target.closest('.choice-card');
+                    if (!card) return;
+                    const key = card.dataset.key;
 
-        if (key==='siya') {
-            whoScale.siya=Math.max(whoScale.siya - WHO_STEP, WHO_MIN);
-            whoScale.me=Math.min(whoScale.me + WHO_STEP, WHO_MAX);
-            applyWhoScale();
-        }
+                    if (key === 'siya') {
+                        whoScale.siya = Math.max(whoScale.siya - WHO_STEP, WHO_MIN);
+                        whoScale.me = Math.min(whoScale.me + WHO_STEP, WHO_MAX);
+                        applyWhoScale();
+                    }
 
-        [...whoGrid.children].forEach(c=> c.classList.remove('selected'));
-        card.classList.add('selected');
-        state.who=key;
-        whoNextBtn.disabled=false;
-    });
+                    [...whoGrid.children].forEach(c => c.classList.remove('selected'));
+                    card.classList.add('selected');
+                    state.who = key;
+                    whoNextBtn.disabled = false;
+                });
 
-whoNextBtn.addEventListener('click', ()=> {
-        buildRecap();
-        showScene('scene9');
-    });
+                whoNextBtn.addEventListener('click', () => {
+                    buildRecap();
+                    showScene('scene9');
+                });
 
-// ---------- SCENE 9: RECAP ----------
-function labelFor(list, key) {
-    const found=list.find(i=> i.key===key);
-    return found ? found.label: key;
-}
+                // ---------- SCENE 9: RECAP ----------
+                function labelFor(list, key) {
+                    const found = list.find(i => i.key === key);
+                    return found ? found.label : key;
+                }
 
-function buildRecap() {
-    const recapList=document.getElementById('recapList');
-    const bringLabels=state.bring.map(k=> labelFor(BRING_ITEMS, k)).join(', ') || '—';
-    const rows=[ ['Bringing',
-    bringLabels],
-    ['Destination',
-    labelFor(DESTINATIONS, state.destination)],
-    ['Ride',
-    labelFor(TRANSPORTATION, state.transportation)],
-    ['Favorite',
-    labelFor(FAVORITES, state.favorite)],
-    ['With',
-    labelFor(WHO, state.who)]];
+                function buildRecap() {
+                    const recapList = document.getElementById('recapList');
+                    const bringLabels = state.bring.map(k => labelFor(BRING_ITEMS, k)).join(', ') || '—';
+                    const rows = [['Bringing',
+                        bringLabels],
+                    ['Destination',
+                        labelFor(DESTINATIONS, state.destination)],
+                    ['Ride',
+                        labelFor(TRANSPORTATION, state.transportation)],
+                    ['Favorite',
+                        labelFor(FAVORITES, state.favorite)],
+                    ['With',
+                        labelFor(WHO, state.who)]];
 
-    recapList.innerHTML=rows.map(([label, value])=> `<div class="recap-row" ><span>$ {
+                    recapList.innerHTML = rows.map(([label, value]) => `<div class="recap-row" ><span>$ {
             escapeHtml(label)
         }
 
@@ -922,37 +1030,40 @@ function buildRecap() {
         }
 
         </span></div>`).join('');
-}
+                }
 
-const bgMusic=document.getElementById('bgMusic');
+                const bgMusic = document.getElementById('bgMusic');
 
-document.getElementById('finalBtn').addEventListener('click', ()=> {
-        showScene('scene10');
+                document.getElementById('finalBtn').addEventListener('click', () => {
+                    showScene('scene10');
 
-        // this click counts as a user gesture, so autoplay is allowed here
-        bgMusic.play().catch(()=> {
-                /* wala pang music file, okay lang */
-            });
-    });
-
-document.getElementById('restartLink').addEventListener('click', ()=> {
-        bgMusic.pause();
-        bgMusic.currentTime=0;
-        state.name=''; state.bring=[]; state.destination=''; state.transportation=''; state.favorite=''; state.who='';
-        nameInput.value='';
-
-        [bringGrid, destGrid, transportGrid, favGrid, whoGrid].forEach(g=> {
-                [...g.children].forEach(c=> {
-                        c.classList.remove('selected'); c.style.transform='';
+                    // this click counts as a user gesture, so autoplay is allowed here
+                    bgMusic.play().catch(() => {
+                        /* wala pang music file, okay lang */
                     });
-            });
-        whoScale.siya=1; whoScale.me=1;
-        bringHint.textContent='pick up to 3';
-        bringNextBtn.disabled=true;
-        destNextBtn.disabled=true;
-        transportNextBtn.disabled=true;
-        favNextBtn.disabled=true;
-        whoNextBtn.disabled=true;
-        showScene('scene1');
-    });
-</script></body></html>
+                });
+
+                document.getElementById('restartLink').addEventListener('click', () => {
+                    bgMusic.pause();
+                    bgMusic.currentTime = 0;
+                    state.name = ''; state.bring = []; state.destination = ''; state.transportation = ''; state.favorite = ''; state.who = '';
+                    nameInput.value = '';
+
+                    [bringGrid, destGrid, transportGrid, favGrid, whoGrid].forEach(g => {
+                        [...g.children].forEach(c => {
+                            c.classList.remove('selected'); c.style.transform = '';
+                        });
+                    });
+                    whoScale.siya = 1; whoScale.me = 1;
+                    bringHint.textContent = 'pick up to 3';
+                    bringNextBtn.disabled = true;
+                    destNextBtn.disabled = true;
+                    transportNextBtn.disabled = true;
+                    favNextBtn.disabled = true;
+                    whoNextBtn.disabled = true;
+                    showScene('scene1');
+                });
+            </script>
+    </body>
+
+    </html>
